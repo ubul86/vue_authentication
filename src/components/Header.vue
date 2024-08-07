@@ -4,12 +4,15 @@
     <v-toolbar-title>My App</v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="!isAuthenticated">
-      <v-btn @click="showLoginPopup">Login</v-btn>
+      <v-btn @click="openLoginPopup">Login</v-btn>
     </div>
     <div v-else>
       <v-btn @click="logout">Logout</v-btn>
     </div>
-    <LoginPopup ref="loginPopup" />
+    <v-btn @click="toggleTheme" icon>
+      <v-icon :color="iconColorClass">{{ iconName }}</v-icon>
+    </v-btn>
+    <LoginPopup v-model="showLoginPopup" @login-success="handleLoginSuccess" />
   </v-app-bar>
 </template>
 
@@ -21,12 +24,43 @@ export default {
   components: { LoginPopup },
   computed: {
     ...mapState(['isAuthenticated']),
+    iconColorClass() {
+      return this.isDarkMode ? 'warning' : 'info';
+    },
+    iconName() {
+     return this.isDarkMode ?  'mdi-white-balance-sunny' : 'mdi-weather-night'
+    }
+  },
+  data() {
+    return {
+      isDarkMode: localStorage.getItem('theme') === 'dark',
+      showLoginPopup: false,
+
+    };
+  },
+  mounted() {
+    this.$vuetify.theme.dark = this.isDarkMode;
   },
   methods: {
     ...mapActions(['logout']),
-    showLoginPopup() {
-      this.$refs.loginPopup.dialog = true;
+    openLoginPopup() {
+      this.showLoginPopup = true;
     },
+    toggleTheme() {
+      this.isDarkMode = !this.isDarkMode;
+      localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+      this.$vuetify.theme.dark = this.isDarkMode;
+    },
+
+    handleLoginSuccess() {
+
+    }
   },
 };
 </script>
+
+<style>
+.v-icon {
+  transition: color 0.3s;
+}
+</style>
