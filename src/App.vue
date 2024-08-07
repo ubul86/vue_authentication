@@ -1,30 +1,22 @@
 <template>
   <v-app>
+    <Header />
     <v-main>
-      <v-container>
-        <!-- Your content here -->
-        <login-popup v-if="showLoginPopup" @close="showLoginPopup = false"></login-popup>
-        <!-- Other components or elements -->
-      </v-container>
+      <v-container></v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import LoginPopup from './components/Login.vue';
+import Header from './components/Header.vue';
 
 export default {
   components: {
-    LoginPopup
-  },
-  data() {
-    return {
-      showLoginPopup: true,
-    };
+    Header,
   },
 };
 </script>
 
 <style>
-/* Add your global styles here */
+@import 'vuetify/dist/vuetify.min.css';
 </style>
