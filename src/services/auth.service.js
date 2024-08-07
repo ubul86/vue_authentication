@@ -1,10 +1,8 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { publicApi, privateApi } from './api';
 
 class AuthService {
     login(user) {
-        return axios.post(API_URL + 'login', {
+        return publicApi.post('/login', {
             email: user.username,
             password: user.password
         }).then(response => {
@@ -16,15 +14,23 @@ class AuthService {
     }
 
     logout() {
-        localStorage.removeItem('user');
+        return privateApi.post('/logout').then(response => {
+            localStorage.removeItem('user');
+            return response.data;
+        });
     }
 
     register(user) {
-        return axios.post(API_URL + 'register', {
+        return publicApi.post('/register', {
             username: user.username,
             email: user.email,
             password: user.password
         });
+    }
+
+    getToken() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        return user ? user.token : null;
     }
 }
 

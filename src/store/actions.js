@@ -1,23 +1,23 @@
-import AuthService from '../services/auth.service';
+import AuthService from '@/services/auth.service';
 
 export default {
     async login({ commit }, user) {
         try {
-            const data = await AuthService.login(user);
-            commit('setUser', data);
+            const response = await AuthService.login(user);
+            commit('login', response.user); // Adjust based on the actual response structure
+            return response.user;
         } catch (error) {
-            console.error(error);
+            console.error('Login failed:', error);
+            throw error;
         }
     },
-    logout({ commit }) {
-        AuthService.logout();
-        commit('setUser', null);
-    },
-    async register({ commit }, user) {
+    async logout({ commit }) {
         try {
-            await AuthService.register(user);
+            await AuthService.logout();
+            commit('logout');
         } catch (error) {
-            console.error(error);
+            console.error('Logout failed:', error);
+            throw error;
         }
-    },
+    }
 };
