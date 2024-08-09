@@ -56,6 +56,7 @@ export default {
     async login() {
       try {
         await this.$store.dispatch('login', this.user);
+        this.$emit('login-success');
         this.close();
       } catch (error) {
         console.error('Login error:', error);

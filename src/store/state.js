@@ -1,4 +1,4 @@
 export default {
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem('user'),
     user: JSON.parse(localStorage.getItem('user')) || null,
 };

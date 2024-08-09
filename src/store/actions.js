@@ -4,8 +4,8 @@ export default {
     async login({ commit }, user) {
         try {
             const response = await AuthService.login(user);
-            commit('login', response.user); // Adjust based on the actual response structure
-            return response.user;
+            commit('setUser', response);
+            return response;
         } catch (error) {
             console.error('Login failed:', error);
             throw error;

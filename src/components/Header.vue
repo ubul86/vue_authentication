@@ -52,8 +52,8 @@ export default {
       this.$vuetify.theme.dark = this.isDarkMode;
     },
 
-    handleLoginSuccess() {
-
+    handleLoginSuccess(user) {
+      this.showLoginPopup = false;
     }
   },
 };
